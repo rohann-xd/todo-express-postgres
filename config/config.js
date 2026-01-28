@@ -5,6 +5,7 @@ module.exports = {
   PORT: process.env.PORT || 5000,
   CORS_ORIGIN: process.env.CORS_ORIGIN,
   POSTGRES_URI: process.env.POSTGRES_URI,
+  DATABASE_URL: process.env.DATABASE_URL,
 
   // JWT
   JWT_PRIVATE_KEY_PATH: process.env.JWT_PRIVATE_KEY_PATH,

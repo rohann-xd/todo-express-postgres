@@ -1,6 +1,7 @@
 // routes/index.routes.js
 const express = require("express");
 const router = express.Router();
+const authRoutes = require("./auth.routes");
 const sendResponse = require("../utils/responseHandler");
 
 // Health check route
@@ -12,6 +13,9 @@ router.get("/", (req, res) => {
 router.get("/health", (req, res) => {
   return sendResponse(res, 200, true, "System Works");
 });
+
+// Register auth routes
+router.use("/auth", authRoutes);
 
 // 404 Routes
 router.use((req, res) => {
