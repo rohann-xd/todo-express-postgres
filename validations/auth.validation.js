@@ -27,6 +27,27 @@ const registerSchema = Joi.object({
   }),
 });
 
+const loginSchema = Joi.object({
+  email: Joi.string()
+    .trim()
+    .lowercase()
+    .email({ tlds: { allow: false } })
+    .required()
+    .messages({
+      "string.email": "Please enter a valid email address",
+      "string.empty": "Email is required",
+      "any.required": "Email is required",
+    }),
+
+  password: Joi.string().min(6).required().messages({
+    "string.base": "Password should be a string",
+    "string.empty": "Password is required",
+    "string.min": "Password should be at least 6 characters long",
+    "any.required": "Password is required",
+  }),
+});
+
 module.exports = {
   registerSchema,
+  loginSchema
 };

@@ -15,4 +15,7 @@ module.exports = {
 
   // ENV
   NODE_ENV: process.env.NODE_ENV || "development",
+  
+  // Cookie Configuration
+  COOKIE_SAMESITE: process.env.COOKIE_SAMESITE || "lax",
 };
