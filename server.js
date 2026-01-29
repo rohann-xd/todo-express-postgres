@@ -7,6 +7,8 @@ const routes = require("./routes/index.routes.js");
 const helmet = require("helmet");
 const { errorHandler } = require("./middlewares/errorHandler");
 const { xssSanitizer } = require("./middlewares/sanitization");
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./config/swagger");
 
 const app = express();
 
@@ -30,6 +32,9 @@ app.use(
 
 // XSS Protection
 app.use(xssSanitizer);
+
+// Swagger API Docs
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Routes
 app.use("/", routes);
