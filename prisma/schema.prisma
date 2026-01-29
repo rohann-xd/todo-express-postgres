@@ -12,7 +12,9 @@ model User {
   email     String   @unique
   password  String
 
+  // Relations
   refreshTokens RefreshToken[]
+  todos         Todo[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -29,8 +31,9 @@ model RefreshToken {
   ipAddress String?
   isRevoked Boolean  @default(false)
 
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Relation
+  userId String
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -39,4 +42,18 @@ model RefreshToken {
   @@index([token])
   @@index([isRevoked])
   @@index([expiresAt])
+}
+
+model Todo {
+  id        String  @id @default(uuid())
+  title     String
+  completed Boolean
+
+  userId String
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
 }

@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const authRoutes = require("./auth.routes");
+const todoRoutes = require("./todos.routes");
 const sendResponse = require("../utils/responseHandler");
 
 // Health check route
@@ -16,6 +17,9 @@ router.get("/health", (req, res) => {
 
 // Register auth routes
 router.use("/auth", authRoutes);
+
+// Register todos routes
+router.use("/todos", todoRoutes);
 
 // 404 Routes
 router.use((req, res) => {
