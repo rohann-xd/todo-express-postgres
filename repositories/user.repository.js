@@ -34,8 +34,16 @@ const comparePassword = async (plain, hashed) => {
   return bcrypt.compare(plain, hashed);
 };
 
+// Find user by Id
+const findUserById = async (id) => {
+  return prisma.user.findUnique({
+    where: { id },
+  });
+};
+
 module.exports = {
   createUser,
   findUserByEmail,
   comparePassword,
+  findUserById
 };
