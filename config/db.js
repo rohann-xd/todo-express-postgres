@@ -1,9 +1,14 @@
 // config/db.js
 const { Pool } = require("pg");
-const { POSTGRES_URI } = require("./config");
+const { DATABASE_URL, DB_SSL } = require("./config");
+
+if (!DATABASE_URL) {
+  throw new Error("DATABASE_URL is not set");
+}
 
 const pool = new Pool({
-  connectionString: POSTGRES_URI,
+  connectionString: DATABASE_URL,
+  ssl: DB_SSL === "true" ? { rejectUnauthorized: false } : false,
 });
 
 const connectDB = async () => {

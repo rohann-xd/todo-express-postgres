@@ -1,24 +1,33 @@
 const { createPublicKey, createPrivateKey, randomBytes } = require("crypto");
 const { CompactEncrypt, compactDecrypt, SignJWT, jwtVerify } = require("jose");
-const fs = require("fs");
+
 const {
-  JWT_PRIVATE_KEY_PATH,
-  JWT_PUBLIC_KEY_PATH,
+  JWT_PRIVATE_KEY,
+  JWT_PUBLIC_KEY,
   JWT_ACCESS_TOKEN_EXPIRE,
   JWT_REFRESH_TOKEN_EXPIRE,
 } = require("../config/config");
 
 // ===============================
-// Load keys
+// Helper — Fail fast if env missing
 // ===============================
-if (!JWT_PRIVATE_KEY_PATH || !JWT_PUBLIC_KEY_PATH) {
-  throw new Error("JWT key paths missing in env");
+function getEnvOrThrow(name, value) {
+  if (!value) {
+    throw new Error(`${name} is not set in environment`);
+  }
+  return value;
 }
 
+// ===============================
+// Load keys from ENV
+// ===============================
 const privateKey = createPrivateKey(
-  fs.readFileSync(JWT_PRIVATE_KEY_PATH, "utf8"),
+  getEnvOrThrow("JWT_PRIVATE_KEY", JWT_PRIVATE_KEY).replace(/\\n/g, "\n"),
 );
-const publicKey = createPublicKey(fs.readFileSync(JWT_PUBLIC_KEY_PATH, "utf8"));
+
+const publicKey = createPublicKey(
+  getEnvOrThrow("JWT_PUBLIC_KEY", JWT_PUBLIC_KEY).replace(/\\n/g, "\n"),
+);
 
 // ===============================
 // Expiry helpers
