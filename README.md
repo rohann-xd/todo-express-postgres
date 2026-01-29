@@ -77,6 +77,92 @@ npm install
 
 ---
 
+### 3️⃣ Setup JWT keys (IMPORTANT)
+
+This project uses **RSA public/private keys** for JWT signing and verification.
+
+A detailed guide is available in the root file:
+
+```
+KEYS_SETUP
+```
+
+Run the following commands from the **project root**:
+
+```bash
+openssl genrsa -out keys/private.key 2048
+openssl rsa -in keys/private.key -pubout -out keys/public.key
+chmod 600 keys/private.key
+chmod 644 keys/public.key
+```
+
+📌 This will create:
+
+* `keys/private.key` (used for signing JWTs)
+* `keys/public.key` (used for verifying JWTs)
+
+⚠️ These keys are **required** for authentication to work.
+
+---
+
+### 4️⃣ Setup environment variables
+
+Create a `.env` file in the root directory (or copy from `.env.example`).
+
+Example:
+
+```env
+PORT=5000
+DATABASE_URL=postgresql://username:password@localhost:5432/todo_app
+NODE_ENV=development
+
+JWT_PRIVATE_KEY_PATH=keys/private.key
+JWT_PUBLIC_KEY_PATH=keys/public.key
+```
+
+Make sure PostgreSQL is running and the database exists.
+
+---
+
+### 5️⃣ Setup database with Prisma
+
+Run the following commands:
+
+```bash
+npx prisma migrate dev
+npx prisma generate
+```
+
+This will:
+
+* Create required tables
+* Apply migrations
+* Generate Prisma Client
+
+---
+
+### 6️⃣ Start the server
+
+```bash
+npm run dev
+```
+
+Server will start at:
+
+```
+http://localhost:5000
+```
+
+---
+
+### 2️⃣ Install dependencies
+
+```bash
+npm install
+```
+
+---
+
 ### 3️⃣ Setup environment variables
 
 Create a `.env` file in the root directory (or copy from `.env.example`).
