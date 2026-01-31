@@ -7,7 +7,10 @@ const {
 const sendResponse = require("../utils/responseHandler");
 const catchAsync = require("../middlewares/catchAsync");
 const { NODE_ENV, COOKIE_SAMESITE } = require("../config/config");
-const { getAccessTokenExpiry, getRefreshTokenExpiry } = require("../utils/jwt.utils");
+const {
+  getAccessTokenExpiry,
+  getRefreshTokenExpiry,
+} = require("../utils/jwt.utils");
 const { AppError } = require("../middlewares/errorHandler");
 
 // ===============================
@@ -22,13 +25,13 @@ const register = catchAsync(async (req, res) => {
     password,
   });
 
-  return sendResponse(res, 201, true, "User registered successfully", { 
+  return sendResponse(res, 201, true, "User registered successfully", {
     user: {
       id: user.id,
       name: user.name,
       email: user.email,
       createdAt: user.createdAt,
-    } 
+    },
   });
 });
 
@@ -55,8 +58,9 @@ const login = catchAsync(async (req, res) => {
   // Cookie configuration
   const cookieOptions = {
     httpOnly: true,
-    secure: NODE_ENV === "production",
-    sameSite: COOKIE_SAMESITE,
+    // ⚠️ FIX: Only use secure if actually using HTTPS
+    secure: NODE_ENV === "production" && req.secure,
+    sameSite: NODE_ENV === "production" ? "lax" : "lax",
   };
 
   // Set access token cookie
@@ -147,7 +151,13 @@ const refresh = catchAsync(async (req, res) => {
     };
   }
 
-  return sendResponse(res, 200, true, "Tokens refreshed successfully", responsePayload);
+  return sendResponse(
+    res,
+    200,
+    true,
+    "Tokens refreshed successfully",
+    responsePayload,
+  );
 });
 
 module.exports = {
