@@ -8,7 +8,7 @@
     "dev": "nodemon server.js",
     "migrate": "prisma migrate deploy",
     "prisma:generate": "prisma generate",
-    "convert-keys": "node scripts/convert-keys.js"
+    "setup-keys": "node scripts/setup-keys.js"
   },
   "repository": {
     "type": "git",
