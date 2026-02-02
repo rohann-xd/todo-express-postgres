@@ -12,8 +12,14 @@ const swaggerSpec = require("./config/swagger");
 
 const app = express();
 
+app.set("trust proxy", true);
+
 // Security headers
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  }),
+);
 
 // Body parsers
 app.use(express.json());

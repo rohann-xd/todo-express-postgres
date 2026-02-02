@@ -1,3 +1,4 @@
+const path = require("path");
 const swaggerJSDoc = require("swagger-jsdoc");
 
 const swaggerSpec = swaggerJSDoc({
@@ -8,13 +9,10 @@ const swaggerSpec = swaggerJSDoc({
       version: "1.0.0",
       description: "Todo API with Express, PostgreSQL and Prisma",
     },
-    servers: [
-      {
-        url: "http://localhost:5000",
-      },
-    ],
+    servers: [{ url: "/" }],
   },
-  apis: ["./routes/*.js"],
+
+  apis: [path.join(__dirname, "../routes/*.routes.js")],
 });
 
 module.exports = swaggerSpec;
